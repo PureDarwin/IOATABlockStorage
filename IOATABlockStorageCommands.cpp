@@ -74,7 +74,7 @@ enum
 
 struct ATAConfigData
 {
-	IOATABlockStorageDriver *	self;
+    IOATABlockStorageDriver_PD *	self;
 	UInt32						state;
 	IOSyncer *					syncer;
 };
@@ -87,7 +87,7 @@ typedef struct ATAConfigData ATAConfigData;
 //--------------------------------------------------------------------------------------
 
 IOReturn
-IOATABlockStorageDriver::identifyATADevice ( void )
+IOATABlockStorageDriver_PD::identifyATADevice ( void )
 {
 
 	IOReturn			status 		= kIOReturnSuccess;
@@ -161,7 +161,7 @@ IOATABlockStorageDriver::identifyATADevice ( void )
 //--------------------------------------------------------------------------------------
 
 void
-IOATABlockStorageDriver::setupReadWriteTaskFile (
+IOATABlockStorageDriver_PD::setupReadWriteTaskFile (
 							IOATACommand *			cmd,
 							IOMemoryDescriptor *	buffer,
 							UInt32					block,
@@ -304,7 +304,7 @@ IOATABlockStorageDriver::setupReadWriteTaskFile (
 //--------------------------------------------------------------------------------------
 
 IOATACommand *
-IOATABlockStorageDriver::ataCommandReadWrite (
+IOATABlockStorageDriver_PD::ataCommandReadWrite (
 							IOMemoryDescriptor * 	buffer,
 							UInt32					block,
 							UInt32			   		nblks )
@@ -344,7 +344,7 @@ IOATABlockStorageDriver::ataCommandReadWrite (
 //--------------------------------------------------------------------------------------
 
 IOReturn
-IOATABlockStorageDriver::ataCommandSetFeatures (
+IOATABlockStorageDriver_PD::ataCommandSetFeatures (
 									UInt8 features,
 									UInt8 sectorCount,
 									UInt8 sectorNumber,
@@ -375,12 +375,12 @@ IOATABlockStorageDriver::ataCommandSetFeatures (
 	
 	if ( forceSync )
 	{
-		fConfigurationCommand->setCallbackPtr ( &IOATABlockStorageDriver::sATAVoidCallback );
+		fConfigurationCommand->setCallbackPtr ( &IOATABlockStorageDriver_PD::sATAVoidCallback );
 	}
 	
 	else
 	{
-		fConfigurationCommand->setCallbackPtr ( &IOATABlockStorageDriver::sATAConfigStateMachine );
+		fConfigurationCommand->setCallbackPtr ( &IOATABlockStorageDriver_PD::sATAConfigStateMachine );
 	}
 	
 	status = fATADevice->executeCommand ( fConfigurationCommand );
@@ -397,7 +397,7 @@ IOATABlockStorageDriver::ataCommandSetFeatures (
 //--------------------------------------------------------------------------------------
 
 IOATACommand *
-IOATABlockStorageDriver::ataCommandFlushCache ( void )
+IOATABlockStorageDriver_PD::ataCommandFlushCache ( void )
 {
 	
 	IOATACommand * 		cmd 		= NULL;
@@ -454,7 +454,7 @@ IOATABlockStorageDriver::ataCommandFlushCache ( void )
 //---------------------------------------------------------------------------
 
 IOReturn
-IOATABlockStorageDriver::syncExecute (
+IOATABlockStorageDriver_PD::syncExecute (
 						IOATACommand *			cmd,
 						UInt32					timeout,
 						UInt8					retries )
@@ -469,7 +469,7 @@ IOATABlockStorageDriver::syncExecute (
 	assert ( clientData != NULL );
 	
 	cmd->setTimeoutMS ( timeout );
-	cmd->setCallbackPtr ( &IOATABlockStorageDriver::sHandleCommandCompletion );
+	cmd->setCallbackPtr ( &IOATABlockStorageDriver_PD::sHandleCommandCompletion );
 		
 	// Set up for synchronous transaction
 	clientData->completion.syncLock = IOSyncer::create ( );
@@ -514,7 +514,7 @@ IOATABlockStorageDriver::syncExecute (
 //---------------------------------------------------------------------------
 
 IOReturn
-IOATABlockStorageDriver::asyncExecute (
+IOATABlockStorageDriver_PD::asyncExecute (
 							IOATACommand *	  		cmd,
 							IOStorageCompletion 	completion,
 							UInt32			  		timeout,
@@ -531,7 +531,7 @@ IOATABlockStorageDriver::asyncExecute (
 		
 	// Set timeout and register the completion handler.
 	cmd->setTimeoutMS ( timeout );
-	cmd->setCallbackPtr ( &IOATABlockStorageDriver::sHandleCommandCompletion );
+    cmd->setCallbIOATABlockStorageDriver_PD::sHandleCommandCompletion );
 		
 	// Set up for an asynchronous transaction
 	clientData->isSync				= false;
@@ -563,7 +563,7 @@ IOATABlockStorageDriver::asyncExecute (
 //--------------------------------------------------------------------------------------
 
 void
-IOATABlockStorageDriver::allocateATACommandObjects ( void )
+IOATABlockStorageDriver_PD::allocateATACommandObjects ( void )
 {
 
 	STATUS_LOG ( ( "IOATABlockStorageDriver::allocateATACommandObjects entering\n" ) );
@@ -626,7 +626,7 @@ IOATABlockStorageDriver::allocateATACommandObjects ( void )
 //--------------------------------------------------------------------------------------
 
 void
-IOATABlockStorageDriver::deallocateATACommandObjects ( void )
+IOATABlockStorageDriver_PD::deallocateATACommandObjects ( void )
 {
 
 	STATUS_LOG ( ( "IOATABlockStorageDriver::dellocateATACommandObjects entering\n" ) );	
@@ -680,7 +680,7 @@ IOATABlockStorageDriver::deallocateATACommandObjects ( void )
 //--------------------------------------------------------------------------------------
 
 IOATACommand *
-IOATABlockStorageDriver::getATACommandObject ( bool blockForCommand )
+IOATABlockStorageDriver_PD::getATACommandObject ( bool blockForCommand )
 {
 	
 	IOATACommand *	cmd = NULL;
@@ -700,7 +700,7 @@ IOATABlockStorageDriver::getATACommandObject ( bool blockForCommand )
 //--------------------------------------------------------------------------------------
 
 void
-IOATABlockStorageDriver::returnATACommandObject ( IOATACommand * cmd )
+IOATABlockStorageDriver_PD::returnATACommandObject ( IOATACommand * cmd )
 {
 	
 	ATAClientData *		clientData;
@@ -730,7 +730,7 @@ IOATABlockStorageDriver::returnATACommandObject ( IOATACommand * cmd )
 //--------------------------------------------------------------------------------------
 
 IOReturn
-IOATABlockStorageDriver::identifyAndConfigureATADevice ( void )
+IOATABlockStorageDriver_PD::identifyAndConfigureATADevice ( void )
 {
 	
 	IOReturn			status				= kIOReturnSuccess;
@@ -938,7 +938,7 @@ ReleaseBusInfoAndBail:
 //--------------------------------------------------------------------------------------
 
 IOReturn
-IOATABlockStorageDriver::configureATADevice ( void )
+IOATABlockStorageDriver_PD::configureATADevice ( void )
 {
 	
 	ATAConfigData *		configData;
@@ -965,7 +965,7 @@ IOATABlockStorageDriver::configureATADevice ( void )
 //--------------------------------------------------------------------------------------
 
 IOReturn
-IOATABlockStorageDriver::reconfigureATADevice ( void )
+IOATABlockStorageDriver_PD::reconfigureATADevice ( void )
 {
 		
 	// There is a window here on a machine with both device0 and device1 ATA
@@ -1020,7 +1020,7 @@ IOATABlockStorageDriver::reconfigureATADevice ( void )
 //--------------------------------------------------------------------------------------
 
 IOReturn
-IOATABlockStorageDriver::setPIOTransferMode ( bool forceSync )
+IOATABlockStorageDriver_PD::setPIOTransferMode ( bool forceSync )
 {
 	
 	IOReturn		status 		= kIOReturnSuccess;
@@ -1062,7 +1062,7 @@ IOATABlockStorageDriver::setPIOTransferMode ( bool forceSync )
 //--------------------------------------------------------------------------------------
 
 IOReturn
-IOATABlockStorageDriver::setDMATransferMode ( bool forceSync )
+IOATABlockStorageDriver_PD::setDMATransferMode ( bool forceSync )
 {
 	
 	IOReturn		status 			= kIOReturnSuccess;
@@ -1124,7 +1124,7 @@ IOATABlockStorageDriver::setDMATransferMode ( bool forceSync )
 //--------------------------------------------------------------------------------------
 
 IOReturn
-IOATABlockStorageDriver::setAdvancedPowerManagementLevel ( UInt8 level, bool forceSync )
+IOATABlockStorageDriver_PD::setAdvancedPowerManagementLevel ( UInt8 level, bool forceSync )
 {
 	
 	IOReturn	status = kIOReturnSuccess;
@@ -1157,7 +1157,7 @@ IOATABlockStorageDriver::setAdvancedPowerManagementLevel ( UInt8 level, bool for
 //--------------------------------------------------------------------------------------
 
 void
-IOATABlockStorageDriver::sATAVoidCallback ( IOATACommand * cmd )
+IOATABlockStorageDriver_PD::sATAVoidCallback ( IOATACommand * cmd )
 {
 	return;
 }
@@ -1168,11 +1168,11 @@ IOATABlockStorageDriver::sATAVoidCallback ( IOATACommand * cmd )
 //--------------------------------------------------------------------------------------
 
 void
-IOATABlockStorageDriver::sATAConfigStateMachine ( IOATACommand * cmd )
+IOATABlockStorageDriver_PD::sATAConfigStateMachine ( IOATACommand * cmd )
 {
 	
 	ATAConfigData *					configData;
-	IOATABlockStorageDriver *		driver;
+	IOATABlockStorageDriver_PD *		driver;
 		
 	STATUS_LOG ( ( "IOATABlockStorageDriver::sATAConfigStateMachine entering\n" ) );	
 	
@@ -1242,7 +1242,7 @@ IOATABlockStorageDriver::sATAConfigStateMachine ( IOATACommand * cmd )
 //--------------------------------------------------------------------------------------
 
 IOReturn
-IOATABlockStorageDriver::resetATADevice ( void )
+IOATABlockStorageDriver_PD::resetATADevice ( void )
 {
 	
 	IOReturn		status		= kIOReturnSuccess;
@@ -1263,7 +1263,7 @@ IOATABlockStorageDriver::resetATADevice ( void )
 	fResetCommand->setTimeoutMS ( kATATimeout45Seconds );
 	fResetCommand->setOpcode ( kATAFnBusReset );
 	fResetCommand->setFlags ( mATAFlagImmediate );
-	fResetCommand->setCallbackPtr ( &IOATABlockStorageDriver::sHandleReset );
+	fResetCommand->setCallbackPtr ( &IOATABlockStorageDriver_PD::sHandleReset );
 	
 	fResetCommand->refCon = ( void * ) this;
 	
@@ -1297,7 +1297,7 @@ IOATABlockStorageDriver::resetATADevice ( void )
 //--------------------------------------------------------------------------------------
 
 void
-IOATABlockStorageDriver::sHandleCommandCompletion ( IOATACommand * cmd )
+IOATABlockStorageDriver_PD::sHandleCommandCompletion ( IOATACommand * cmd )
 {
 	
 	ATAClientData		clientData 			= { 0 };
@@ -1391,7 +1391,7 @@ IOATABlockStorageDriver::sHandleCommandCompletion ( IOATACommand * cmd )
 //---------------------------------------------------------------------------
 
 void
-IOATABlockStorageDriver::sHandleSimpleSyncTransaction ( IOATACommand * cmd )
+IOATABlockStorageDriver_PD::sHandleSimpleSyncTransaction ( IOATACommand * cmd )
 {
 	
 	IOReturn		status;
@@ -1410,15 +1410,15 @@ IOATABlockStorageDriver::sHandleSimpleSyncTransaction ( IOATACommand * cmd )
 //---------------------------------------------------------------------------
 
 void
-IOATABlockStorageDriver::sHandleReset ( IOATACommand * cmd )
+IOATABlockStorageDriver_PD::sHandleReset ( IOATACommand * cmd )
 {
 	
-	IOATABlockStorageDriver *	self;
+	IOATABlockStorageDriver_PD *	self;
 	
 	if ( cmd->getResult ( ) == kATANoErr )
 	{
 		
-		self = ( IOATABlockStorageDriver * ) cmd->refCon;
+		self = ( IOATABlockStorageDriver_PD * ) cmd->refCon;
 		self->fWakeUpResetOccurred = true;
 		
 	}
@@ -1432,7 +1432,7 @@ IOATABlockStorageDriver::sHandleReset ( IOATACommand * cmd )
 //--------------------------------------------------------------------------------------
 
 void
-IOATABlockStorageDriver::sConvertBlockToCHSAddress ( IOATACommand *	cmd,
+IOATABlockStorageDriver_PD::sConvertBlockToCHSAddress ( IOATACommand *	cmd,
 													 UInt32 		block,
 													 UInt32 		heads,
 													 UInt32 		sectors,
@@ -1464,7 +1464,7 @@ IOATABlockStorageDriver::sConvertBlockToCHSAddress ( IOATACommand *	cmd,
 //--------------------------------------------------------------------------------------
 
 void
-IOATABlockStorageDriver::sReissueCommandFromClientData ( IOATACommand * cmd )
+IOATABlockStorageDriver_PD::sReissueCommandFromClientData ( IOATACommand * cmd )
 {
 	
 	ATAClientData *		clientData;
@@ -1489,7 +1489,7 @@ IOATABlockStorageDriver::sReissueCommandFromClientData ( IOATACommand * cmd )
 	cmd->setFlags 				( clientData->flags );
 	cmd->setUnit 				( clientData->self->fATAUnitID );
 	cmd->setTimeoutMS 			( clientData->timeout );
-	cmd->setCallbackPtr			( &IOATABlockStorageDriver::sHandleCommandCompletion );
+	cmd->setCallbackPtr			( &IOATABlockStorageDriver_PD::sHandleCommandCompletion );
 	cmd->setRegMask				( clientData->regMask );
 	cmd->setBuffer 				( clientData->buffer );
 	cmd->setPosition 			( clientData->bufferOffset );
@@ -1530,7 +1530,7 @@ IOATABlockStorageDriver::sReissueCommandFromClientData ( IOATACommand * cmd )
 //--------------------------------------------------------------------------------------
 
 void
-IOATABlockStorageDriver::sSetCommandBuffers ( IOATACommand *		cmd,
+IOATABlockStorageDriver_PD::sSetCommandBuffers ( IOATACommand *		cmd,
 											  IOMemoryDescriptor * 	buffer,
 											  IOByteCount			offset,
 											  IOByteCount			numBlocks )
@@ -1557,7 +1557,7 @@ IOATABlockStorageDriver::sSetCommandBuffers ( IOATACommand *		cmd,
 //--------------------------------------------------------------------------------------
 
 void
-IOATABlockStorageDriver::sSaveStateData ( IOATACommand * cmd )
+IOATABlockStorageDriver_PD::sSaveStateData ( IOATACommand * cmd )
 {
 	
 	ATAClientData *		clientData;
@@ -1578,7 +1578,7 @@ IOATABlockStorageDriver::sSaveStateData ( IOATACommand * cmd )
 //--------------------------------------------------------------------------------------
 
 IOReturn
-IOATABlockStorageDriver::sValidateIdentifyData ( UInt8 * deviceIdentifyData )
+IOATABlockStorageDriver_PD::sValidateIdentifyData ( UInt8 * deviceIdentifyData )
 {
 	
 	IOReturn	status		= kIOReturnSuccess;

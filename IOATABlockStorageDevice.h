@@ -31,7 +31,7 @@
 #include <IOKit/ata/IOATACommand.h>
 #include <IOKit/storage/IOBlockStorageDevice.h>
 
-class IOATABlockStorageDriver;
+class IOATABlockStorageDriver_PD;
 
 class IOATABlockStorageDevice : public IOBlockStorageDevice
 {
@@ -42,7 +42,7 @@ class IOATABlockStorageDevice : public IOBlockStorageDevice
 protected:
 	
 	
-	IOATABlockStorageDriver *     fProvider;
+	IOATABlockStorageDriver_PD *     fProvider;
 	
 	// binary compatibility instance variable expansion
 	struct ExpansionData
@@ -53,72 +53,72 @@ protected:
 	
 	#define fClients			reserved->fClients
 	 
-	virtual bool		attach ( IOService * provider );
-	virtual void        detach ( IOService * provider );
+	virtual bool		attach ( IOService * provider ) APPLE_KEXT_OVERRIDE;
+	virtual void        detach ( IOService * provider ) APPLE_KEXT_OVERRIDE;
 
-    virtual bool		handleOpen ( IOService * client, IOOptionBits options, void * access );
-	virtual void		handleClose ( IOService * client, IOOptionBits options );
-    virtual bool		handleIsOpen ( const IOService * client ) const;
+    virtual bool		handleOpen ( IOService * client, IOOptionBits options, void * access ) APPLE_KEXT_OVERRIDE;
+	virtual void		handleClose ( IOService * client, IOOptionBits options ) APPLE_KEXT_OVERRIDE;
+    virtual bool		handleIsOpen ( const IOService * client ) const APPLE_KEXT_OVERRIDE;
 	
 public:
 	
 	//-----------------------------------------------------------------------
 	// Override setProperties for turning off APM features on powerbooks.
 	
-    virtual IOReturn	setProperties ( OSObject * properties );
+    virtual IOReturn	setProperties ( OSObject * properties ) APPLE_KEXT_OVERRIDE;
 	
 	
     virtual IOReturn	doAsyncReadWrite ( 	IOMemoryDescriptor *buffer,
                                             UInt64 block, UInt64 nblks,
                                             IOStorageAttributes *attributes,
-                                            IOStorageCompletion *completion );
+                                            IOStorageCompletion *completion ) APPLE_KEXT_OVERRIDE;
 
 	virtual IOReturn	doSyncReadWrite ( 	IOMemoryDescriptor *	buffer,
 											UInt32					block,
                                             UInt32					nblks );
 	
-    virtual IOReturn	doEjectMedia ( void );
+    virtual IOReturn	doEjectMedia ( void ) APPLE_KEXT_OVERRIDE;
 	
-    virtual IOReturn	doFormatMedia ( UInt64 byteCapacity );
+    virtual IOReturn	doFormatMedia ( UInt64 byteCapacity ) APPLE_KEXT_OVERRIDE;
 	
     virtual UInt32		doGetFormatCapacities ( UInt64 *	capacities,
-    											UInt32		capacitiesMaxCount ) const;
+    											UInt32		capacitiesMaxCount ) const APPLE_KEXT_OVERRIDE;
 	
-    virtual IOReturn	doLockUnlockMedia ( bool doLock );
+    virtual IOReturn	doLockUnlockMedia ( bool doLock ) APPLE_KEXT_OVERRIDE ;
 	
-    virtual IOReturn	doSynchronizeCache ( void );
+    virtual IOReturn	doSynchronizeCache ( void ) APPLE_KEXT_OVERRIDE ;
         
-    virtual char *		getVendorString ( void );
+    virtual char *		getVendorString ( void ) APPLE_KEXT_OVERRIDE ;
     
-    virtual char *		getProductString ( void );
+    virtual char *		getProductString ( void ) APPLE_KEXT_OVERRIDE ;
     
-    virtual char *		getRevisionString ( void );
+    virtual char *		getRevisionString ( void ) APPLE_KEXT_OVERRIDE ;
     
-    virtual char *		getAdditionalDeviceInfoString ( void );
+    virtual char *		getAdditionalDeviceInfoString ( void ) APPLE_KEXT_OVERRIDE ;
     
-    virtual IOReturn	reportBlockSize ( UInt64 * blockSize );
+    virtual IOReturn	reportBlockSize ( UInt64 * blockSize ) APPLE_KEXT_OVERRIDE ;
     
-    virtual IOReturn	reportEjectability ( bool * isEjectable );
+    virtual IOReturn	reportEjectability ( bool * isEjectable ) APPLE_KEXT_OVERRIDE ;
     
-    virtual IOReturn	reportLockability ( bool * isLockable );
+    virtual IOReturn	reportLockability ( bool * isLockable ) APPLE_KEXT_OVERRIDE ;
     
-    virtual IOReturn	reportMediaState ( bool * mediaPresent, bool * changed );
+    virtual IOReturn	reportMediaState ( bool * mediaPresent, bool * changed ) APPLE_KEXT_OVERRIDE ;
     
     virtual IOReturn	reportPollRequirements ( 	bool * pollIsRequired,
-    												bool * pollIsExpensive );
+    												bool * pollIsExpensive ) APPLE_KEXT_OVERRIDE;
     
     virtual IOReturn	reportMaxReadTransfer ( UInt64 blockSize, UInt64 * max );
     
-    virtual IOReturn	reportMaxValidBlock ( UInt64 * maxBlock );
+    virtual IOReturn	reportMaxValidBlock ( UInt64 * maxBlock ) APPLE_KEXT_OVERRIDE;
     
     virtual IOReturn	reportMaxWriteTransfer ( UInt64 blockSize, UInt64 * max );
     
-    virtual IOReturn	reportRemovability ( bool * isRemovable );
+    virtual IOReturn	reportRemovability ( bool * isRemovable ) APPLE_KEXT_OVERRIDE;
     
-    virtual IOReturn	reportWriteProtection ( bool * isWriteProtected );
+    virtual IOReturn	reportWriteProtection ( bool * isWriteProtected ) APPLE_KEXT_OVERRIDE;
 	
-	virtual IOReturn	getWriteCacheState ( bool * enabled );
-	virtual IOReturn	setWriteCacheState ( bool enabled );
+	virtual IOReturn	getWriteCacheState ( bool * enabled ) APPLE_KEXT_OVERRIDE;
+	virtual IOReturn	setWriteCacheState ( bool enabled ) APPLE_KEXT_OVERRIDE;
 	
 private:
 	/* Added with 10.1.4 */

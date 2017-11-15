@@ -253,7 +253,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.ethan-s.esdarwin.kernel.IOATABlockStorage";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx10.12;
+				SDKROOT = macosx10.13;
 				WRAPPER_EXTENSION = kext;
 			};
 			name = Debug;
@@ -302,7 +302,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.ethan-s.esdarwin.kernel.IOATABlockStorage";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx10.12;
+				SDKROOT = macosx10.13;
 				WRAPPER_EXTENSION = kext;
 			};
 			name = Release;

@@ -60,7 +60,7 @@
 
 
 #define	super IOService
-OSDefineMetaClassAndStructors ( IOATABlockStorageDriver, IOService );
+OSDefineMetaClassAndStructors ( IOATABlockStorageDriver_PD, IOService );
 
 enum
 {
@@ -78,7 +78,7 @@ enum
 //---------------------------------------------------------------------------
 
 bool
-IOATABlockStorageDriver::init ( OSDictionary * properties )
+IOATABlockStorageDriver_PD::init ( OSDictionary * properties )
 {
 		
 	// Run by our superclass
@@ -99,7 +99,7 @@ IOATABlockStorageDriver::init ( OSDictionary * properties )
 //---------------------------------------------------------------------------
 
 bool
-IOATABlockStorageDriver::start ( IOService * provider )
+IOATABlockStorageDriver_PD::start ( IOService * provider )
 {
 	
 	IOReturn		theErr				= kIOReturnSuccess;
@@ -189,7 +189,7 @@ IOATABlockStorageDriver::start ( IOService * provider )
 	fPowerTransitionInProgress 	= false;
 	
 	fPowerManagementThread = thread_call_allocate (
-					( thread_call_func_t ) IOATABlockStorageDriver::sPowerManagement,
+					( thread_call_func_t ) IOATABlockStorageDriver_PD::sPowerManagement,
 					( thread_call_param_t ) this );
 					
 	if ( fPowerManagementThread == NULL )
@@ -219,7 +219,7 @@ IOATABlockStorageDriver::start ( IOService * provider )
 //---------------------------------------------------------------------------
 
 bool
-IOATABlockStorageDriver::finalize ( IOOptionBits options )
+IOATABlockStorageDriver_PD::finalize ( IOOptionBits options )
 {
 	
     if ( fPowerManagementInitialized )
@@ -258,7 +258,7 @@ IOATABlockStorageDriver::finalize ( IOOptionBits options )
 //---------------------------------------------------------------------------
 
 void
-IOATABlockStorageDriver::stop ( IOService * provider )
+IOATABlockStorageDriver_PD::stop ( IOService * provider )
 {
 	
 	// Call our superclass
@@ -276,7 +276,7 @@ IOATABlockStorageDriver::stop ( IOService * provider )
 //---------------------------------------------------------------------------
 
 void
-IOATABlockStorageDriver::free ( void )
+IOATABlockStorageDriver_PD::free ( void )
 {
 
 	IOWorkLoop *	workLoop;
@@ -351,7 +351,7 @@ IOATABlockStorageDriver::free ( void )
 //---------------------------------------------------------------------------
 
 bool
-IOATABlockStorageDriver::inspectDevice ( IOATADevice * ataDevice )
+IOATABlockStorageDriver_PD::inspectDevice ( IOATADevice * ataDevice )
 {
 	
 	OSString *		string			= NULL;
@@ -404,7 +404,7 @@ IOATABlockStorageDriver::inspectDevice ( IOATADevice * ataDevice )
 //---------------------------------------------------------------------------
 
 ataDeviceType
-IOATABlockStorageDriver::reportATADeviceType ( void ) const
+IOATABlockStorageDriver_PD::reportATADeviceType ( void ) const
 {
 	
 	return kATADeviceType;
@@ -417,7 +417,7 @@ IOATABlockStorageDriver::reportATADeviceType ( void ) const
 //---------------------------------------------------------------------------
 
 const char *
-IOATABlockStorageDriver::getDeviceTypeName ( void )
+IOATABlockStorageDriver_PD::getDeviceTypeName ( void )
 {
 	
 	return kIOBlockStorageDeviceTypeGeneric;
@@ -431,7 +431,7 @@ IOATABlockStorageDriver::getDeviceTypeName ( void )
 //---------------------------------------------------------------------------
 
 IOService *
-IOATABlockStorageDriver::instantiateNub ( void )
+IOATABlockStorageDriver_PD::instantiateNub ( void )
 {
 	
 	STATUS_LOG ( ( "IOATABlockStorageDriver::instantiateNub entering.\n" ) );
@@ -450,7 +450,7 @@ IOATABlockStorageDriver::instantiateNub ( void )
 //---------------------------------------------------------------------------
 
 bool
-IOATABlockStorageDriver::createNub ( IOService * provider )
+IOATABlockStorageDriver_PD::createNub ( IOService * provider )
 {
 	
 	IOService *		nub = NULL;
@@ -497,7 +497,7 @@ IOATABlockStorageDriver::createNub ( IOService * provider )
 //---------------------------------------------------------------------------
 
 IOReturn
-IOATABlockStorageDriver::doAsyncReadWrite (
+IOATABlockStorageDriver_PD::doAsyncReadWrite (
 										IOMemoryDescriptor *	buffer,
 										UInt32					block,
 										UInt32					nblks,
@@ -532,7 +532,7 @@ IOATABlockStorageDriver::doAsyncReadWrite (
 //---------------------------------------------------------------------------
 
 IOReturn
-IOATABlockStorageDriver::doSyncReadWrite ( 
+IOATABlockStorageDriver_PD::doSyncReadWrite (
 										IOMemoryDescriptor *	buffer,
 										UInt32					block,
 										UInt32					nblks )
@@ -565,7 +565,7 @@ IOATABlockStorageDriver::doSyncReadWrite (
 //---------------------------------------------------------------------------
 
 IOReturn
-IOATABlockStorageDriver::doEjectMedia ( void )
+IOATABlockStorageDriver_PD::doEjectMedia ( void )
 {
 	
 	IOReturn	status = kIOReturnSuccess;
@@ -614,7 +614,7 @@ IOATABlockStorageDriver::doEjectMedia ( void )
 //---------------------------------------------------------------------------
 
 IOReturn
-IOATABlockStorageDriver::doFormatMedia ( UInt64 byteCapacity )
+IOATABlockStorageDriver_PD::doFormatMedia ( UInt64 byteCapacity )
 {
 	
 	STATUS_LOG ( ( "IOATABlockStorageDriver::doFormatMedia called.\n" ) );
@@ -628,7 +628,7 @@ IOATABlockStorageDriver::doFormatMedia ( UInt64 byteCapacity )
 //---------------------------------------------------------------------------
 
 UInt32
-IOATABlockStorageDriver::doGetFormatCapacities ( UInt64 * 	capacities,
+IOATABlockStorageDriver_PD::doGetFormatCapacities ( UInt64 * 	capacities,
 												 UInt32		capacitiesMaxCount ) const
 {
 		
@@ -679,7 +679,7 @@ IOATABlockStorageDriver::doGetFormatCapacities ( UInt64 * 	capacities,
 //---------------------------------------------------------------------------
 
 IOReturn
-IOATABlockStorageDriver::doLockUnlockMedia ( bool doLock )
+IOATABlockStorageDriver_PD::doLockUnlockMedia ( bool doLock )
 {
 	
 	STATUS_LOG ( ( "IOATABlockStorageDriver::doLockUnlockMedia called.\n" ) );
@@ -693,7 +693,7 @@ IOATABlockStorageDriver::doLockUnlockMedia ( bool doLock )
 //---------------------------------------------------------------------------
 
 IOReturn
-IOATABlockStorageDriver::doSynchronizeCache ( void )
+IOATABlockStorageDriver_PD::doSynchronizeCache ( void )
 {
 	
 	IOReturn			status 	= kIOReturnSuccess;
@@ -741,7 +741,7 @@ Exit:
 //---------------------------------------------------------------------------
 
 IOReturn
-IOATABlockStorageDriver::doStart ( void )
+IOATABlockStorageDriver_PD::doStart ( void )
 {
 	
 	STATUS_LOG ( ( "IOATABlockStorageDriver::doStart called.\n" ) );
@@ -755,7 +755,7 @@ IOATABlockStorageDriver::doStart ( void )
 //---------------------------------------------------------------------------
 
 IOReturn
-IOATABlockStorageDriver::doStop ( void )
+IOATABlockStorageDriver_PD::doStop ( void )
 {
 	
 	STATUS_LOG ( ( "IOATABlockStorageDriver::doStop called.\n" ) );
@@ -769,7 +769,7 @@ IOATABlockStorageDriver::doStop ( void )
 //---------------------------------------------------------------------------
 
 char *
-IOATABlockStorageDriver::getAdditionalDeviceInfoString ( void )
+IOATABlockStorageDriver_PD::getAdditionalDeviceInfoString ( void )
 {
 
 	STATUS_LOG ( ( "IOATABlockStorageDriver::getAdditionalDeviceInfoString called.\n" ) );
@@ -783,7 +783,7 @@ IOATABlockStorageDriver::getAdditionalDeviceInfoString ( void )
 //---------------------------------------------------------------------------
 
 char *
-IOATABlockStorageDriver::getProductString ( void )
+IOATABlockStorageDriver_PD::getProductString ( void )
 {
 
 	STATUS_LOG ( ( "IOATABlockStorageDriver::getProductString called.\n" ) );
@@ -797,7 +797,7 @@ IOATABlockStorageDriver::getProductString ( void )
 //---------------------------------------------------------------------------
 
 char *
-IOATABlockStorageDriver::getRevisionString ( void )
+IOATABlockStorageDriver_PD::getRevisionString ( void )
 {
 
 	STATUS_LOG ( ( "IOATABlockStorageDriver::getRevisionString called.\n" ) );
@@ -811,7 +811,7 @@ IOATABlockStorageDriver::getRevisionString ( void )
 //---------------------------------------------------------------------------
 
 char *
-IOATABlockStorageDriver::getVendorString ( void )
+IOATABlockStorageDriver_PD::getVendorString ( void )
 {
 
 	STATUS_LOG ( ( "IOATABlockStorageDriver::getVendorString called.\n" ) );
@@ -826,7 +826,7 @@ IOATABlockStorageDriver::getVendorString ( void )
 //---------------------------------------------------------------------------
 
 IOReturn
-IOATABlockStorageDriver::reportBlockSize ( UInt64 * blockSize )
+IOATABlockStorageDriver_PD::reportBlockSize ( UInt64 * blockSize )
 {
 	
 	STATUS_LOG ( ( "IOATABlockStorageDriver::reportBlockSize called.\n" ) );
@@ -844,7 +844,7 @@ IOATABlockStorageDriver::reportBlockSize ( UInt64 * blockSize )
 //---------------------------------------------------------------------------
 
 IOReturn
-IOATABlockStorageDriver::reportEjectability ( bool * isEjectable )
+IOATABlockStorageDriver_PD::reportEjectability ( bool * isEjectable )
 {
 	
 	STATUS_LOG ( ( "IOATABlockStorageDriver::reportEjectability called.\n" ) );
@@ -860,7 +860,7 @@ IOATABlockStorageDriver::reportEjectability ( bool * isEjectable )
 //---------------------------------------------------------------------------
 
 IOReturn
-IOATABlockStorageDriver::reportLockability ( bool * isLockable )
+IOATABlockStorageDriver_PD::reportLockability ( bool * isLockable )
 {
 	
 	STATUS_LOG ( ( "IOATABlockStorageDriver::reportLockability called.\n" ) );
@@ -877,7 +877,7 @@ IOATABlockStorageDriver::reportLockability ( bool * isLockable )
 //---------------------------------------------------------------------------
 
 IOReturn
-IOATABlockStorageDriver::reportPollRequirements ( 	bool * pollRequired,
+IOATABlockStorageDriver_PD::reportPollRequirements ( 	bool * pollRequired,
 													bool * pollIsExpensive )
 {
 	
@@ -897,7 +897,7 @@ IOATABlockStorageDriver::reportPollRequirements ( 	bool * pollRequired,
 //---------------------------------------------------------------------------
 
 IOReturn
-IOATABlockStorageDriver::reportMaxReadTransfer ( UInt64 blocksize, UInt64 * max )
+IOATABlockStorageDriver_PD::reportMaxReadTransfer ( UInt64 blocksize, UInt64 * max )
 {
 	
 	OSNumber *		size;
@@ -927,7 +927,7 @@ IOATABlockStorageDriver::reportMaxReadTransfer ( UInt64 blocksize, UInt64 * max 
 //---------------------------------------------------------------------------
 
 IOReturn
-IOATABlockStorageDriver::reportMaxWriteTransfer ( UInt64 blocksize, UInt64 * max )
+IOATABlockStorageDriver_PD::reportMaxWriteTransfer ( UInt64 blocksize, UInt64 * max )
 {
 	
 	OSNumber *		size;
@@ -954,7 +954,7 @@ IOATABlockStorageDriver::reportMaxWriteTransfer ( UInt64 blocksize, UInt64 * max
 //---------------------------------------------------------------------------
 
 IOReturn
-IOATABlockStorageDriver::reportMaxValidBlock ( UInt64 * maxBlock )
+IOATABlockStorageDriver_PD::reportMaxValidBlock ( UInt64 * maxBlock )
 {
 	
 	UInt64		diskCapacity = 0;
@@ -981,7 +981,7 @@ IOATABlockStorageDriver::reportMaxValidBlock ( UInt64 * maxBlock )
 //---------------------------------------------------------------------------
 
 IOReturn
-IOATABlockStorageDriver::reportMediaState ( bool * mediaPresent, bool * changed )
+IOATABlockStorageDriver_PD::reportMediaState ( bool * mediaPresent, bool * changed )
 {
 
 	STATUS_LOG ( ( "IOATABlockStorageDriver::reportMediaState called.\n" ) );
@@ -999,7 +999,7 @@ IOATABlockStorageDriver::reportMediaState ( bool * mediaPresent, bool * changed 
 //---------------------------------------------------------------------------
 
 IOReturn
-IOATABlockStorageDriver::reportRemovability ( bool * isRemovable )
+IOATABlockStorageDriver_PD::reportRemovability ( bool * isRemovable )
 {
 
 	STATUS_LOG ( ( "IOATABlockStorageDriver::reportRemovability called.\n" ) );
@@ -1015,7 +1015,7 @@ IOATABlockStorageDriver::reportRemovability ( bool * isRemovable )
 //---------------------------------------------------------------------------
 
 IOReturn
-IOATABlockStorageDriver::reportWriteProtection ( bool * isWriteProtected )
+IOATABlockStorageDriver_PD::reportWriteProtection ( bool * isWriteProtected )
 {
 
 	STATUS_LOG ( ( "IOATABlockStorageDriver::reportWriteProtection called.\n" ) );
@@ -1031,7 +1031,7 @@ IOATABlockStorageDriver::reportWriteProtection ( bool * isWriteProtected )
 //---------------------------------------------------------------------------
 
 IOReturn
-IOATABlockStorageDriver::getWriteCacheState ( bool * enabled )
+IOATABlockStorageDriver_PD::getWriteCacheState ( bool * enabled )
 {
 	
 	IOReturn	status = kIOReturnSuccess;
@@ -1070,7 +1070,7 @@ IOATABlockStorageDriver::getWriteCacheState ( bool * enabled )
 //---------------------------------------------------------------------------
 
 IOReturn
-IOATABlockStorageDriver::setWriteCacheState ( bool enabled )
+IOATABlockStorageDriver_PD::setWriteCacheState ( bool enabled )
 {
 	
 	IOReturn	status = kIOReturnSuccess;
@@ -1108,7 +1108,7 @@ IOATABlockStorageDriver::setWriteCacheState ( bool enabled )
 //--------------------------------------------------------------------------------------
 
 IOReturn
-IOATABlockStorageDriver::sendSMARTCommand ( IOATACommand * command )
+IOATABlockStorageDriver_PD::sendSMARTCommand ( IOATACommand * command )
 {
 	
 	IOReturn	status = kIOReturnSuccess;
@@ -1144,7 +1144,7 @@ IOATABlockStorageDriver::sendSMARTCommand ( IOATACommand * command )
 //---------------------------------------------------------------------------
 
 IOReturn
-IOATABlockStorageDriver::message ( UInt32 type, IOService * provider, void * argument )
+IOATABlockStorageDriver_PD::message ( UInt32 type, IOService * provider, void * argument )
 {
 	
 	IOReturn 	status = kIOReturnSuccess;
@@ -1216,7 +1216,7 @@ IOATABlockStorageDriver::message ( UInt32 type, IOService * provider, void * arg
 //--------------------------------------------------------------------------------------
 
 void
-IOATABlockStorageDriver::sSwapBytes16 ( UInt8 * buffer, IOByteCount numBytesToSwap )
+IOATABlockStorageDriver_PD::sSwapBytes16 ( UInt8 * buffer, IOByteCount numBytesToSwap )
 {
 	
 	IOByteCount		index;
@@ -1243,7 +1243,7 @@ IOATABlockStorageDriver::sSwapBytes16 ( UInt8 * buffer, IOByteCount numBytesToSw
 //--------------------------------------------------------------------------------------
 
 UInt8
-IOATABlockStorageDriver::sConvertHighestBitToNumber ( UInt16 bitField )
+IOATABlockStorageDriver_PD::sConvertHighestBitToNumber ( UInt16 bitField )
 {
 	
 	STATUS_LOG ( ( "IOATABlockStorageDriver::convertHighestBitToNumber called.\n" ) );
@@ -1260,23 +1260,23 @@ IOATABlockStorageDriver::sConvertHighestBitToNumber ( UInt16 bitField )
 
 
 // binary compatibility reserved method space
-OSMetaClassDefineReservedUsed ( IOATABlockStorageDriver, 1 );	/* sendSMARTCommand */
+OSMetaClassDefineReservedUsed ( IOATABlockStorageDriver_PD, 1 );	/* sendSMARTCommand */
 
-OSMetaClassDefineReservedUnused ( IOATABlockStorageDriver, 2 );
-OSMetaClassDefineReservedUnused ( IOATABlockStorageDriver, 3 );
-OSMetaClassDefineReservedUnused ( IOATABlockStorageDriver, 4 );
-OSMetaClassDefineReservedUnused ( IOATABlockStorageDriver, 5 );
-OSMetaClassDefineReservedUnused ( IOATABlockStorageDriver, 6 );
-OSMetaClassDefineReservedUnused ( IOATABlockStorageDriver, 7 );
-OSMetaClassDefineReservedUnused ( IOATABlockStorageDriver, 8 );
-OSMetaClassDefineReservedUnused ( IOATABlockStorageDriver, 9 );
-OSMetaClassDefineReservedUnused ( IOATABlockStorageDriver, 10 );
-OSMetaClassDefineReservedUnused ( IOATABlockStorageDriver, 11 );
-OSMetaClassDefineReservedUnused ( IOATABlockStorageDriver, 12 );
-OSMetaClassDefineReservedUnused ( IOATABlockStorageDriver, 13 );
-OSMetaClassDefineReservedUnused ( IOATABlockStorageDriver, 14 );
-OSMetaClassDefineReservedUnused ( IOATABlockStorageDriver, 15 );
-OSMetaClassDefineReservedUnused ( IOATABlockStorageDriver, 16 );
+OSMetaClassDefineReservedUnused ( IOATABlockStorageDriver_PD, 2 );
+OSMetaClassDefineReservedUnused ( IOATABlockStorageDriver_PD, 3 );
+OSMetaClassDefineReservedUnused ( IOATABlockStorageDriver_PD, 4 );
+OSMetaClassDefineReservedUnused ( IOATABlockStorageDriver_PD, 5 );
+OSMetaClassDefineReservedUnused ( IOATABlockStorageDriver_PD, 6 );
+OSMetaClassDefineReservedUnused ( IOATABlockStorageDriver_PD, 7 );
+OSMetaClassDefineReservedUnused ( IOATABlockStorageDriver_PD, 8 );
+OSMetaClassDefineReservedUnused ( IOATABlockStorageDriver_PD, 9 );
+OSMetaClassDefineReservedUnused ( IOATABlockStorageDriver_PD, 10 );
+OSMetaClassDefineReservedUnused ( IOATABlockStorageDriver_PD, 11 );
+OSMetaClassDefineReservedUnused ( IOATABlockStorageDriver_PD, 12 );
+OSMetaClassDefineReservedUnused ( IOATABlockStorageDriver_PD, 13 );
+OSMetaClassDefineReservedUnused ( IOATABlockStorageDriver_PD, 14 );
+OSMetaClassDefineReservedUnused ( IOATABlockStorageDriver_PD, 15 );
+OSMetaClassDefineReservedUnused ( IOATABlockStorageDriver_PD, 16 );
 
 
 //--------------------------------------------------------------------------------------

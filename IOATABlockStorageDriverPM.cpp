@@ -135,7 +135,7 @@ IOATABlockStorageDriverPowerDownHandler ( void * 			target,
 											vm_size_t 		argSize )
 {
 	
-	return ( ( IOATABlockStorageDriver * ) target )->powerDownHandler (
+	return ( ( IOATABlockStorageDriver_PD * ) target )->powerDownHandler (
 														refCon,
 														messageType,
 														provider,
@@ -150,7 +150,7 @@ IOATABlockStorageDriverPowerDownHandler ( void * 			target,
 //---------------------------------------------------------------------------
 
 IOReturn
-IOATABlockStorageDriver::powerDownHandler (	void * 			refCon,
+IOATABlockStorageDriver_PD::powerDownHandler (	void * 			refCon,
 											UInt32 			messageType,
 											IOService * 	provider,
 											void * 			messageArgument,
@@ -173,7 +173,7 @@ IOATABlockStorageDriver::powerDownHandler (	void * 			refCon,
 //---------------------------------------------------------------------------
 
 unsigned long
-IOATABlockStorageDriver::initialPowerStateForDomainState (
+IOATABlockStorageDriver_PD::initialPowerStateForDomainState (
 											IOPMPowerFlags	flags )
 {
 	
@@ -190,7 +190,7 @@ IOATABlockStorageDriver::initialPowerStateForDomainState (
 //---------------------------------------------------------------------------
 
 void
-IOATABlockStorageDriver::initForPM ( void )
+IOATABlockStorageDriver_PD::initForPM ( void )
 {
 	
 	SERIAL_STATUS_LOG ( ( "IOATABlockStorageDriver::initForPM called\n" ) );
@@ -216,7 +216,7 @@ IOATABlockStorageDriver::initForPM ( void )
 //---------------------------------------------------------------------------
 
 IOReturn
-IOATABlockStorageDriver::setAggressiveness ( UInt32 type, UInt32 minutes )
+IOATABlockStorageDriver_PD::setAggressiveness ( UInt32 type, UInt32 minutes )
 {
 	
 	SERIAL_STATUS_LOG ( ( "IOATABlockStorageDriver::setAggressiveness called\n" ) );
@@ -240,7 +240,7 @@ IOATABlockStorageDriver::setAggressiveness ( UInt32 type, UInt32 minutes )
 //---------------------------------------------------------------------------
 
 void
-IOATABlockStorageDriver::checkPowerState ( void )
+IOATABlockStorageDriver_PD::checkPowerState ( void )
 {
 	
 	SERIAL_STATUS_LOG ( ( "IOATABlockStorageDriver::checkPowerState called\n" ) );
@@ -249,7 +249,7 @@ IOATABlockStorageDriver::checkPowerState ( void )
 	activityTickle ( kIOPMSuperclassPolicy1, ( UInt32 ) kIOATAPowerStateActive );
 	
 	fCommandGate->runAction ( ( IOCommandGate::Action )
-								&IOATABlockStorageDriver::sHandleCheckPowerState );
+								&IOATABlockStorageDriver_PD::sHandleCheckPowerState );
 	
 }
 
@@ -260,7 +260,7 @@ IOATABlockStorageDriver::checkPowerState ( void )
 //---------------------------------------------------------------------------
 
 void
-IOATABlockStorageDriver::sHandleCheckPowerState ( IOATABlockStorageDriver * self )
+IOATABlockStorageDriver_PD::sHandleCheckPowerState ( IOATABlockStorageDriver_PD * self )
 {
 	
 	self->handleCheckPowerState ( );
@@ -274,7 +274,7 @@ IOATABlockStorageDriver::sHandleCheckPowerState ( IOATABlockStorageDriver * self
 //---------------------------------------------------------------------------
 
 void
-IOATABlockStorageDriver::handleCheckPowerState ( void )
+IOATABlockStorageDriver_PD::handleCheckPowerState ( void )
 {
 	
 	while ( fCurrentPowerState != kIOATAPowerStateActive )
@@ -294,7 +294,7 @@ IOATABlockStorageDriver::handleCheckPowerState ( void )
 //---------------------------------------------------------------------------
 
 IOReturn
-IOATABlockStorageDriver::setPowerState (
+IOATABlockStorageDriver_PD::setPowerState (
 							UInt32      powerStateOrdinal,
 							IOService * whichDevice )
 {
@@ -303,7 +303,7 @@ IOATABlockStorageDriver::setPowerState (
 	SERIAL_STATUS_LOG ( ( "powerStateOrdinal = %ld\n", powerStateOrdinal ) );
 	
 	fCommandGate->runAction ( ( IOCommandGate::Action )
-								&IOATABlockStorageDriver::sHandleSetPowerState,
+								&IOATABlockStorageDriver_PD::sHandleSetPowerState,
 								( void * ) powerStateOrdinal );
 	
 	return k100SecondsInMicroSeconds;
@@ -318,8 +318,8 @@ IOATABlockStorageDriver::setPowerState (
 //---------------------------------------------------------------------------
 
 void
-IOATABlockStorageDriver::sHandleSetPowerState (
-								IOATABlockStorageDriver * 	self,
+IOATABlockStorageDriver_PD::sHandleSetPowerState (
+								IOATABlockStorageDriver_PD * 	self,
 								UInt32         				powerStateOrdinal )
 {
 	
@@ -338,7 +338,7 @@ IOATABlockStorageDriver::sHandleSetPowerState (
 //---------------------------------------------------------------------------
 
 void
-IOATABlockStorageDriver::handleSetPowerState ( UInt32 powerStateOrdinal )
+IOATABlockStorageDriver_PD::handleSetPowerState ( UInt32 powerStateOrdinal )
 {
 	
 	AbsoluteTime	time;
@@ -364,12 +364,12 @@ IOATABlockStorageDriver::handleSetPowerState ( UInt32 powerStateOrdinal )
 //---------------------------------------------------------------------------
 
 void
-IOATABlockStorageDriver::sPowerManagement ( thread_call_param_t whichDevice )
+IOATABlockStorageDriver_PD::sPowerManagement ( thread_call_param_t whichDevice )
 {
 	
-	IOATABlockStorageDriver *	self;
+	IOATABlockStorageDriver_PD *	self;
 	
-	self = ( IOATABlockStorageDriver * ) whichDevice;
+	self = ( IOATABlockStorageDriver_PD * ) whichDevice;
 	if ( ( self != NULL ) && ( self->isInactive ( ) == false ) )
 	{
 		
@@ -401,7 +401,7 @@ IOATABlockStorageDriver::sPowerManagement ( thread_call_param_t whichDevice )
 //---------------------------------------------------------------------------
 
 void
-IOATABlockStorageDriver::handlePowerChange ( void )
+IOATABlockStorageDriver_PD::handlePowerChange ( void )
 {
 	
 	UInt32		count = 0;
@@ -445,7 +445,7 @@ IOATABlockStorageDriver::handlePowerChange ( void )
 				fCurrentPowerState = fProposedPowerState;
 				
 				fCommandGate->runAction ( ( IOCommandGate::Action )
-										  &IOATABlockStorageDriver::sSetWakeupResetOccurred,
+										  &IOATABlockStorageDriver_PD::sSetWakeupResetOccurred,
 										  ( void * ) resetOccurred );
 								
 				while ( fNumCommandsOutstanding != 0 )
@@ -524,7 +524,7 @@ IOATABlockStorageDriver::handlePowerChange ( void )
 					bool	resetOccurred = false;
 					
 					fCommandGate->runAction ( ( IOCommandGate::Action )
-											&IOATABlockStorageDriver::sCheckWakeupResetOccurred,
+											&IOATABlockStorageDriver_PD::sCheckWakeupResetOccurred,
 											( void * ) &resetOccurred );
 					
 					// Check to see if a reset already occurred. Since there might be
@@ -570,7 +570,7 @@ IOATABlockStorageDriver::handlePowerChange ( void )
 //---------------------------------------------------------------------------
 
 IOReturn
-IOATABlockStorageDriver::issuePowerTransition ( UInt32 function )
+IOATABlockStorageDriver_PD::issuePowerTransition ( UInt32 function )
 {
 	
 	IOReturn	status = kIOReturnSuccess;
@@ -593,7 +593,7 @@ IOATABlockStorageDriver::issuePowerTransition ( UInt32 function )
 	fPowerManagementCommand->setDevice_Head ( fATAUnitID << 4 );
 	fPowerManagementCommand->setOpcode ( kATAFnExecIO );
 	fPowerManagementCommand->setCallbackPtr (
-					&IOATABlockStorageDriver::sHandleSimpleSyncTransaction );
+					&IOATABlockStorageDriver_PD::sHandleSimpleSyncTransaction );
 	
 	switch ( function )
 	{
@@ -631,7 +631,7 @@ IOATABlockStorageDriver::issuePowerTransition ( UInt32 function )
 //--------------------------------------------------------------------------------------
 
 void
-IOATABlockStorageDriver::setWakeupResetOccurred ( bool resetOccurred )
+IOATABlockStorageDriver_PD::setWakeupResetOccurred ( bool resetOccurred )
 {
 	
 	fWakeUpResetOccurred = resetOccurred;
@@ -644,7 +644,7 @@ IOATABlockStorageDriver::setWakeupResetOccurred ( bool resetOccurred )
 //--------------------------------------------------------------------------------------
 
 void
-IOATABlockStorageDriver::sSetWakeupResetOccurred ( IOATABlockStorageDriver * driver,
+IOATABlockStorageDriver_PD::sSetWakeupResetOccurred ( IOATABlockStorageDriver_PD * driver,
 												    bool resetOccurred )
 {
 	
@@ -659,7 +659,7 @@ IOATABlockStorageDriver::sSetWakeupResetOccurred ( IOATABlockStorageDriver * dri
 //--------------------------------------------------------------------------------------
 
 bool
-IOATABlockStorageDriver::checkWakeupResetOccurred ( void )
+IOATABlockStorageDriver_PD::checkWakeupResetOccurred ( void )
 {
 		
 	return fWakeUpResetOccurred;
@@ -672,7 +672,7 @@ IOATABlockStorageDriver::checkWakeupResetOccurred ( void )
 //--------------------------------------------------------------------------------------
 
 void
-IOATABlockStorageDriver::sCheckWakeupResetOccurred ( IOATABlockStorageDriver * driver,
+IOATABlockStorageDriver_PD::sCheckWakeupResetOccurred ( IOATABlockStorageDriver_PD * driver,
 												 	  void * resetOccurred )
 {
 	

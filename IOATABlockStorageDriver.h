@@ -23,8 +23,8 @@
  * @APPLE_LICENSE_HEADER_END@
  */
 
-#ifndef _IO_ATA_BLOCKSTORAGE_DRIVER_H_
-#define _IO_ATA_BLOCKSTORAGE_DRIVER_H_
+#ifndef _IO_ATA_BLOCKSTORAGE_DRIVER_PD_H_
+#define _IO_ATA_BLOCKSTORAGE_DRIVER_PD_H_
 
 /* osfmk includes */
 #include <kern/queue.h>
@@ -44,7 +44,7 @@
 #include <IOKit/ata/IOATATypes.h>
 
 // Forward class declaration
-class IOATABlockStorageDriver;
+class IOATABlockStorageDriver_PD;
 
 /*! 
 	@typedef ATAClientData
@@ -76,7 +76,7 @@ class IOATABlockStorageDriver;
 struct ATAClientData
 {
 	IOATACommand *				cmd;				// pointer to command object this wraps
-	IOATABlockStorageDriver *	self;				// pointer to self
+    IOATABlockStorageDriver_PD *	self;				// pointer to self
 	union {
 		IOStorageCompletion 	async;				// completion target/action/param.
 		IOSyncer *          	syncLock;			// used by sync commands.
@@ -120,10 +120,10 @@ typedef struct ATAClientData ATAClientData;
 #define kIOATASupportedFeaturesKey		"ATA Features"
 
 
-class IOATABlockStorageDriver : public IOService
+class IOATABlockStorageDriver_PD : public IOService
 {
 	
-	OSDeclareDefaultStructors ( IOATABlockStorageDriver )
+	OSDeclareDefaultStructors ( IOATABlockStorageDriver_PD )
 	
 protected:
 	
@@ -199,10 +199,10 @@ protected:
 	
 	static void 	sPowerManagement ( thread_call_param_t whichDevice );
 
-	static void 	sHandleSetPowerState ( 	IOATABlockStorageDriver * self,
+	static void 	sHandleSetPowerState ( 	IOATABlockStorageDriver_PD * self,
 											UInt32 powerStateOrdinal );
 	
-	static void 	sHandleCheckPowerState ( IOATABlockStorageDriver * self );
+	static void 	sHandleCheckPowerState ( IOATABlockStorageDriver_PD * self );
 
 	static void 	sHandleSimpleSyncTransaction ( IOATACommand * cmd );
 	
@@ -225,12 +225,12 @@ protected:
 	
 	// The sSetWakeupResetOccurred method is used to safely set member variables
 	// behind the command gate.
-	static void				sSetWakeupResetOccurred ( IOATABlockStorageDriver * driver,
+	static void				sSetWakeupResetOccurred ( IOATABlockStorageDriver_PD * driver,
 												   	  bool resetOccurred );
 
 	// The sCheckWakeupResetOccur method is used to safely check member variables
 	// behind the command gate.
-	static void				sCheckWakeupResetOccurred ( IOATABlockStorageDriver * driver,
+	static void				sCheckWakeupResetOccurred ( IOATABlockStorageDriver_PD * driver,
 												        void * resetOccurred );
 	
 	static void				sATAConfigStateMachine ( IOATACommand * cmd );
@@ -241,12 +241,12 @@ protected:
 	//-----------------------------------------------------------------------
 	// Release all allocated resource before calling super::free().
 	
-	virtual void free ( void );
+	virtual void free ( void ) APPLE_KEXT_OVERRIDE;
 	
 	//-----------------------------------------------------------------------
 	// Stop any power management
 	
-	virtual bool finalize ( IOOptionBits options );
+	virtual bool finalize ( IOOptionBits options ) APPLE_KEXT_OVERRIDE;
 	
 	//-----------------------------------------------------------------------
 	// Setup an ATATaskFile from the parameters given
@@ -367,9 +367,9 @@ public:
 	
 	// Overrides from IOService
 	
-	bool 			init 	( OSDictionary * propertyTable );
-	virtual bool 	start 	( IOService * provider );
-	virtual void 	stop 	( IOService * provider );
+	bool 			init 	( OSDictionary * propertyTable ) APPLE_KEXT_OVERRIDE;
+	virtual bool 	start 	( IOService * provider ) APPLE_KEXT_OVERRIDE;
+	virtual void 	stop 	( IOService * provider ) APPLE_KEXT_OVERRIDE;
 
 	// Necessary for calls from user space to set the APM level.
 	virtual IOReturn	setAdvancedPowerManagementLevel ( UInt8 level, bool forceSync );
@@ -382,7 +382,7 @@ public:
 	// The initialPowerStateForDomainState() method is called by the power manager
 	// to ask us what state we should be in based on the power flags of our parent
 	// in the power tree.
-	virtual unsigned long		initialPowerStateForDomainState ( IOPMPowerFlags flags );
+	virtual unsigned long		initialPowerStateForDomainState ( IOPMPowerFlags flags ) APPLE_KEXT_OVERRIDE;
 	
 	virtual IOReturn 	setPowerState ( UInt32			powerStateOrdinal,
 										IOService * 	whatDevice );
@@ -536,7 +536,7 @@ public:
 	
 	virtual IOReturn message ( 	UInt32			type,
 								IOService * 	provider,
-								void *			argument );
+								void *			argument ) APPLE_KEXT_OVERRIDE;
 	
 	//-----------------------------------------------------------------------
 	// Returns the device type.
@@ -547,27 +547,27 @@ public:
 	// Sends an ATA SMART command to the device.
 
 	/* Added with 10.1.4 */
-	OSMetaClassDeclareReservedUsed ( IOATABlockStorageDriver, 1 )
+	OSMetaClassDeclareReservedUsed ( IOATABlockStorageDriver_PD, 1 )
 	
 	virtual IOReturn		sendSMARTCommand ( IOATACommand * command );
 	
 	// Binary Compatibility reserved method space
-	OSMetaClassDeclareReservedUnused ( IOATABlockStorageDriver, 2 );
-	OSMetaClassDeclareReservedUnused ( IOATABlockStorageDriver, 3 );
-	OSMetaClassDeclareReservedUnused ( IOATABlockStorageDriver, 4 );
-	OSMetaClassDeclareReservedUnused ( IOATABlockStorageDriver, 5 );
-	OSMetaClassDeclareReservedUnused ( IOATABlockStorageDriver, 6 );
-	OSMetaClassDeclareReservedUnused ( IOATABlockStorageDriver, 7 );
-	OSMetaClassDeclareReservedUnused ( IOATABlockStorageDriver, 8 );
-	OSMetaClassDeclareReservedUnused ( IOATABlockStorageDriver, 9 );
-	OSMetaClassDeclareReservedUnused ( IOATABlockStorageDriver, 10 );
-	OSMetaClassDeclareReservedUnused ( IOATABlockStorageDriver, 11 );
-	OSMetaClassDeclareReservedUnused ( IOATABlockStorageDriver, 12 );
-	OSMetaClassDeclareReservedUnused ( IOATABlockStorageDriver, 13 );
-	OSMetaClassDeclareReservedUnused ( IOATABlockStorageDriver, 14 );
-	OSMetaClassDeclareReservedUnused ( IOATABlockStorageDriver, 15 );
-	OSMetaClassDeclareReservedUnused ( IOATABlockStorageDriver, 16 );
+	OSMetaClassDeclareReservedUnused ( IOATABlockStorageDriver_PD, 2 );
+	OSMetaClassDeclareReservedUnused ( IOATABlockStorageDriver_PD, 3 );
+	OSMetaClassDeclareReservedUnused ( IOATABlockStorageDriver_PD, 4 );
+	OSMetaClassDeclareReservedUnused ( IOATABlockStorageDriver_PD, 5 );
+	OSMetaClassDeclareReservedUnused ( IOATABlockStorageDriver_PD, 6 );
+	OSMetaClassDeclareReservedUnused ( IOATABlockStorageDriver_PD, 7 );
+	OSMetaClassDeclareReservedUnused ( IOATABlockStorageDriver_PD, 8 );
+	OSMetaClassDeclareReservedUnused ( IOATABlockStorageDriver_PD, 9 );
+	OSMetaClassDeclareReservedUnused ( IOATABlockStorageDriver_PD, 10 );
+	OSMetaClassDeclareReservedUnused ( IOATABlockStorageDriver_PD, 11 );
+	OSMetaClassDeclareReservedUnused ( IOATABlockStorageDriver_PD, 12 );
+	OSMetaClassDeclareReservedUnused ( IOATABlockStorageDriver_PD, 13 );
+	OSMetaClassDeclareReservedUnused ( IOATABlockStorageDriver_PD, 14 );
+	OSMetaClassDeclareReservedUnused ( IOATABlockStorageDriver_PD, 15 );
+	OSMetaClassDeclareReservedUnused ( IOATABlockStorageDriver_PD, 16 );
 	
 };
 
-#endif /* _IO_ATA_BLOCKSTORAGE_DRIVER_H_ */
+#endif /* _IO_ATA_BLOCKSTORAGE_DRIVER_PD_H_ */

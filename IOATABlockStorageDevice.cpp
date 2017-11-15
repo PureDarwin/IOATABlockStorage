@@ -84,7 +84,7 @@ IOATABlockStorageDevice::attach ( IOService * provider )
 	if ( !super::attach ( provider ) )
 		return false;
 	
-	fProvider = OSDynamicCast ( IOATABlockStorageDriver, provider );
+	fProvider = OSDynamicCast (IOATABlockStorageDriver_PD, provider);
 	if ( fProvider == NULL )
 	{
 		
