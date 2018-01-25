@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1FE75F5B20196819004C9C70 /* Info-IOATABlockStorage.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1FE75F5A20196818004C9C70 /* Info-IOATABlockStorage.plist */; };
 		AA93499B1EAAC72500CA38D8 /* IOATABlockStorageCommands.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA9349971EAAC72500CA38D8 /* IOATABlockStorageCommands.cpp */; };
 		AA93499C1EAAC72500CA38D8 /* IOATABlockStorageDevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA9349981EAAC72500CA38D8 /* IOATABlockStorageDevice.cpp */; };
 		AA93499D1EAAC72500CA38D8 /* IOATABlockStorageDriver.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA9349991EAAC72500CA38D8 /* IOATABlockStorageDriver.cpp */; };
@@ -36,6 +37,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		1FE75F5A20196818004C9C70 /* Info-IOATABlockStorage.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Info-IOATABlockStorage.plist"; sourceTree = "<group>"; };
 		AA93498C1EAAC6AB00CA38D8 /* IOATABlockStorage.kext */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = IOATABlockStorage.kext; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA9349971EAAC72500CA38D8 /* IOATABlockStorageCommands.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = IOATABlockStorageCommands.cpp; sourceTree = "<group>"; };
 		AA9349981EAAC72500CA38D8 /* IOATABlockStorageDevice.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = IOATABlockStorageDevice.cpp; sourceTree = "<group>"; };
@@ -82,6 +84,7 @@
 				AA9349981EAAC72500CA38D8 /* IOATABlockStorageDevice.cpp */,
 				AA9349991EAAC72500CA38D8 /* IOATABlockStorageDriver.cpp */,
 				AA93499A1EAAC72500CA38D8 /* IOATABlockStorageDriverPM.cpp */,
+				1FE75F5A20196818004C9C70 /* Info-IOATABlockStorage.plist */,
 			);
 			name = IOATABlockStorage;
 			sourceTree = "<group>";
@@ -168,6 +171,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1FE75F5B20196819004C9C70 /* Info-IOATABlockStorage.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -293,13 +297,13 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = pbxbuild.data/IOATABlockStorage.build/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/Info-IOATABlockStorage.plist";
 				INSTALLHDRS_COPY_PHASE = YES;
 				MODULE_NAME = "com.ethan-s.esdarwin.kernel.IOATABlockStorage";
 				MODULE_VERSION = 1.0.0d1;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.ethan-s.esdarwin.kernel.IOATABlockStorage";
+				PRODUCT_BUNDLE_IDENTIFIER = com.apple.iokit.IOATABlockStorage;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
 				WRAPPER_EXTENSION = kext;
@@ -343,12 +347,12 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = pbxbuild.data/IOATABlockStorage.build/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/Info-IOATABlockStorage.plist";
 				INSTALLHDRS_COPY_PHASE = YES;
 				MODULE_NAME = "com.ethan-s.esdarwin.kernel.IOATABlockStorage";
 				MODULE_VERSION = 1.0.0d1;
 				MTL_ENABLE_DEBUG_INFO = NO;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.ethan-s.esdarwin.kernel.IOATABlockStorage";
+				PRODUCT_BUNDLE_IDENTIFIER = com.apple.iokit.IOATABlockStorage;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
 				WRAPPER_EXTENSION = kext;
