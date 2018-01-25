@@ -37,10 +37,10 @@
 
 /* Begin PBXFileReference section */
 		AA93498C1EAAC6AB00CA38D8 /* IOATABlockStorage.kext */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = IOATABlockStorage.kext; sourceTree = BUILT_PRODUCTS_DIR; };
-		AA9349971EAAC72500CA38D8 /* IOATABlockStorageCommands.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = IOATABlockStorageCommands.cpp; sourceTree = SOURCE_ROOT; };
-		AA9349981EAAC72500CA38D8 /* IOATABlockStorageDevice.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = IOATABlockStorageDevice.cpp; sourceTree = SOURCE_ROOT; };
-		AA9349991EAAC72500CA38D8 /* IOATABlockStorageDriver.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = IOATABlockStorageDriver.cpp; sourceTree = SOURCE_ROOT; };
-		AA93499A1EAAC72500CA38D8 /* IOATABlockStorageDriverPM.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = IOATABlockStorageDriverPM.cpp; sourceTree = SOURCE_ROOT; };
+		AA9349971EAAC72500CA38D8 /* IOATABlockStorageCommands.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = IOATABlockStorageCommands.cpp; sourceTree = "<group>"; };
+		AA9349981EAAC72500CA38D8 /* IOATABlockStorageDevice.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = IOATABlockStorageDevice.cpp; sourceTree = "<group>"; };
+		AA9349991EAAC72500CA38D8 /* IOATABlockStorageDriver.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = IOATABlockStorageDriver.cpp; sourceTree = "<group>"; };
+		AA93499A1EAAC72500CA38D8 /* IOATABlockStorageDriverPM.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = IOATABlockStorageDriverPM.cpp; sourceTree = "<group>"; };
 		AA93499F1EAAC73C00CA38D8 /* IOATABlockStorageDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IOATABlockStorageDevice.h; sourceTree = "<group>"; };
 		AA9349A01EAAC73C00CA38D8 /* IOATABlockStorageDriver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IOATABlockStorageDriver.h; sourceTree = "<group>"; };
 		AA9349A11EAAC73C00CA38D8 /* IOATAStorageDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IOATAStorageDefines.h; sourceTree = "<group>"; };
@@ -83,7 +83,7 @@
 				AA9349991EAAC72500CA38D8 /* IOATABlockStorageDriver.cpp */,
 				AA93499A1EAAC72500CA38D8 /* IOATABlockStorageDriverPM.cpp */,
 			);
-			path = IOATABlockStorage;
+			name = IOATABlockStorage;
 			sourceTree = "<group>";
 		};
 		AA9349A51EAAC74100CA38D8 /* Headers */ = {
