@@ -531,7 +531,7 @@ IOATABlockStorageDriver_PD::asyncExecute (
 		
 	// Set timeout and register the completion handler.
 	cmd->setTimeoutMS ( timeout );
-    cmd->setCallbIOATABlockStorageDriver_PD::sHandleCommandCompletion );
+    cmd->setCallbackPtr( &IOATABlockStorageDriver_PD::sHandleCommandCompletion );
 		
 	// Set up for an asynchronous transaction
 	clientData->isSync				= false;
