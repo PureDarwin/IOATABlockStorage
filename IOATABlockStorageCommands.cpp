@@ -129,7 +129,7 @@ IOATABlockStorageDriver_PD::identifyATADevice ( void )
 	if ( status != kIOReturnSuccess )
 	{
 		
-		ERROR_LOG ( ( "IOATABlockStorageDriver::identifyATADevice result = %ld.\n", ( UInt32 ) cmd->getResult ( ) ) );
+		ERROR_LOG ( ( "IOATABlockStorageDriver::identifyATADevice result = %u.\n", (unsigned int) cmd->getResult ( ) ) );
 		return status;
 	
 	}
@@ -146,7 +146,7 @@ IOATABlockStorageDriver_PD::identifyATADevice ( void )
 		sSwapBytes16 ( ( UInt8 * ) fDeviceIdentifyData, 512 );
 	#endif
 	
-	STATUS_LOG ( ( "IOATABlockStorageDriver::identifyATADevice exiting with status = %ld.\n", ( UInt32 ) status ) );
+	STATUS_LOG ( ( "IOATABlockStorageDriver::identifyATADevice exiting with status = %u.\n", (unsigned int) status ) );
 	
 	return status;
 		
@@ -252,7 +252,7 @@ IOATABlockStorageDriver_PD::setupReadWriteTaskFile (
 		else
 		{
 			
-			STATUS_LOG ( ( "IOATABlockStorageDriver::setupReadWriteTaskFile block = %lx.\n",  block ) );
+			STATUS_LOG ( ( "IOATABlockStorageDriver::setupReadWriteTaskFile block = %x.\n",  (unsigned int)block ) );
 			
 			// 28bit LBA addressing supported
 			cmd->setLBA28 ( block, fATAUnitID );
@@ -751,7 +751,7 @@ IOATABlockStorageDriver_PD::identifyAndConfigureATADevice ( void )
 	if ( status != kIOReturnSuccess )
 	{
 		
-		ERROR_LOG ( ( "IOATABlockStorageDriver::identifyAndConfigureATADevice provide bus info failed thErr = %ld.\n", ( UInt32 ) status ) );
+		ERROR_LOG ( ( "IOATABlockStorageDriver::identifyAndConfigureATADevice provide bus info failed thErr = %u.\n", (unsigned int) status ) );
 		goto ReleaseBusInfoAndBail;
 		
 	}
@@ -873,7 +873,7 @@ IOATABlockStorageDriver_PD::identifyAndConfigureATADevice ( void )
 	if ( status != kIOReturnSuccess )
 	{
 		
-		ERROR_LOG ( ( "IOATABlockStorageDriver::identifyAndConfigureATADevice provideConfig returned an error = %ld.\n", ( UInt32 ) status ) );
+		ERROR_LOG ( ( "IOATABlockStorageDriver::identifyAndConfigureATADevice provideConfig returned an error = %u.\n", (unsigned int) status ) );
 		goto ReleaseBusInfoAndBail;
 		
 	}
@@ -891,7 +891,7 @@ IOATABlockStorageDriver_PD::identifyAndConfigureATADevice ( void )
 	if ( status != kIOReturnSuccess )
 	{
 		
-		ERROR_LOG ( ( "IOATABlockStorageDriver::identifyAndConfigureATADevice selectConfig returned error = %ld.\n", ( UInt32 ) status ) );
+		ERROR_LOG ( ( "IOATABlockStorageDriver::identifyAndConfigureATADevice selectConfig returned error = %u.\n", (unsigned int) status ) );
 		
 	}
 	
@@ -902,7 +902,7 @@ IOATABlockStorageDriver_PD::identifyAndConfigureATADevice ( void )
 	
 	// Add any more configuration info we need (write cache enable, power management, etc.)
 	status = configureATADevice ( );
-	STATUS_LOG ( ( "IOATABlockStorageDriver::identifyAndConfigureATADevice configureATADevice returned status = %ld.\n", ( UInt32 ) status ) );
+	STATUS_LOG ( ( "IOATABlockStorageDriver::identifyAndConfigureATADevice configureATADevice returned status = %u.\n", (unsigned int) status ) );
 	
 	
 ReleaseBusInfoAndBail:
@@ -926,7 +926,7 @@ ReleaseBusInfoAndBail:
 		
 	}
 	
-	STATUS_LOG ( ( "IOATABlockStorageDriver::identifyAndConfigureATADevice returning status = %ld.\n", ( UInt32 ) status ) );
+	STATUS_LOG ( ( "IOATABlockStorageDriver::identifyAndConfigureATADevice returning status = %u.\n", (unsigned int) status ) );
 	
 	return status;
 	
@@ -1037,7 +1037,7 @@ IOATABlockStorageDriver_PD::setPIOTransferMode ( bool forceSync )
 	if ( mode > 4 )
 	{
 		
-		STATUS_LOG ( ( "IOATABlockStorageDriver::setPIOTransferMode mode > 4 = %ld.\n", ( UInt32 ) mode ) );
+		STATUS_LOG ( ( "IOATABlockStorageDriver::setPIOTransferMode mode > 4 = %u.\n", (unsigned int) mode ) );
 		mode = 4;
 		
 	}
@@ -1050,7 +1050,7 @@ IOATABlockStorageDriver_PD::setPIOTransferMode ( bool forceSync )
 									 mATAFlagImmediate,
 									 forceSync );
 	
-	STATUS_LOG ( ( "IOATABlockStorageDriver::setPIOTransferMode exiting with error = %ld.\n", ( UInt32 ) status ) );
+	STATUS_LOG ( ( "IOATABlockStorageDriver::setPIOTransferMode exiting with error = %u.\n", (unsigned int) status ) );
 	
 	return status;
 	
@@ -1112,7 +1112,7 @@ IOATABlockStorageDriver_PD::setDMATransferMode ( bool forceSync )
 									 mATAFlagImmediate,
 									 forceSync );
 	
-	STATUS_LOG ( ( "IOATABlockStorageDriver::SetDMATransferMode exiting with error = %ld.\n", ( UInt32 ) status ) );
+	STATUS_LOG ( ( "IOATABlockStorageDriver::SetDMATransferMode exiting with error = %u.\n", (unsigned int) status ) );
 	
 	return status;
 	
@@ -1145,7 +1145,7 @@ IOATABlockStorageDriver_PD::setAdvancedPowerManagementLevel ( UInt8 level, bool 
 									 mATAFlagImmediate,
 									 forceSync );
 	
-	STATUS_LOG ( ( "IOATABlockStorageDriver::setAdvancedPowerManagementLevel exiting with error = %ld.\n", ( UInt32 ) status ) );
+	STATUS_LOG ( ( "IOATABlockStorageDriver::setAdvancedPowerManagementLevel exiting with error = %u.\n", (unsigned int) status ) );
 	
 	return status;
 	
@@ -1316,7 +1316,7 @@ IOATABlockStorageDriver_PD::sHandleCommandCompletion ( IOATACommand * cmd )
 	{
 		
 		case kATANoErr:
-			STATUS_LOG ( ( "IOATABlockStorageDriver::sHandleCommandCompletion actual xfer = %ld.\n", ( UInt32 ) cmd->getActualTransfer ( ) ) );
+			STATUS_LOG ( ( "IOATABlockStorageDriver::sHandleCommandCompletion actual xfer = %u.\n", (unsigned int) cmd->getActualTransfer ( ) ) );
 			clientData.returnCode = kIOReturnSuccess;
 			break;
 			
@@ -1330,7 +1330,7 @@ IOATABlockStorageDriver_PD::sHandleCommandCompletion ( IOATACommand * cmd )
 		
 		case kATADeviceError:
 			
-			ERROR_LOG ( ( "IOATABlockStorageDriver::sHandleCommandCompletion result = %ld.\n", result ) );
+			ERROR_LOG ( ( "IOATABlockStorageDriver::sHandleCommandCompletion result = %u.\n", (unsigned int)result ) );
 			
 			// Reissue the command if the max number of retries is greater
 			// than zero, else return an error
