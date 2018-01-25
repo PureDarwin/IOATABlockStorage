@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1FE75F5B20196819004C9C70 /* Info-IOATABlockStorage.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1FE75F5A20196818004C9C70 /* Info-IOATABlockStorage.plist */; };
 		AA93499B1EAAC72500CA38D8 /* IOATABlockStorageCommands.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA9349971EAAC72500CA38D8 /* IOATABlockStorageCommands.cpp */; };
 		AA93499C1EAAC72500CA38D8 /* IOATABlockStorageDevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA9349981EAAC72500CA38D8 /* IOATABlockStorageDevice.cpp */; };
 		AA93499D1EAAC72500CA38D8 /* IOATABlockStorageDriver.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA9349991EAAC72500CA38D8 /* IOATABlockStorageDriver.cpp */; };
@@ -171,7 +170,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1FE75F5B20196819004C9C70 /* Info-IOATABlockStorage.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
