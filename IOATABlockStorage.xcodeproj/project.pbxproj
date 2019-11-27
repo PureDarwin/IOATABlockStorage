@@ -36,7 +36,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		1FE75F5A20196818004C9C70 /* Info-IOATABlockStorage.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Info-IOATABlockStorage.plist"; sourceTree = "<group>"; };
+		1FE75F5A20196818004C9C70 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AA93498C1EAAC6AB00CA38D8 /* IOATABlockStorage.kext */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = IOATABlockStorage.kext; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA9349971EAAC72500CA38D8 /* IOATABlockStorageCommands.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = IOATABlockStorageCommands.cpp; sourceTree = "<group>"; };
 		AA9349981EAAC72500CA38D8 /* IOATABlockStorageDevice.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = IOATABlockStorageDevice.cpp; sourceTree = "<group>"; };
@@ -83,7 +83,7 @@
 				AA9349981EAAC72500CA38D8 /* IOATABlockStorageDevice.cpp */,
 				AA9349991EAAC72500CA38D8 /* IOATABlockStorageDriver.cpp */,
 				AA93499A1EAAC72500CA38D8 /* IOATABlockStorageDriverPM.cpp */,
-				1FE75F5A20196818004C9C70 /* Info-IOATABlockStorage.plist */,
+				1FE75F5A20196818004C9C70 /* Info.plist */,
 			);
 			name = IOATABlockStorage;
 			sourceTree = "<group>";
@@ -302,7 +302,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = "$(SRCROOT)/Info-IOATABlockStorage.plist";
+				INFOPLIST_FILE = Info.plist;
 				INSTALLHDRS_COPY_PHASE = YES;
 				INSTALL_PATH = /System/Library/Extensions;
 				MODULE_NAME = "com.ethan-s.esdarwin.kernel.IOATABlockStorage";
@@ -353,7 +353,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = "$(SRCROOT)/Info-IOATABlockStorage.plist";
+				INFOPLIST_FILE = Info.plist;
 				INSTALLHDRS_COPY_PHASE = YES;
 				INSTALL_PATH = /System/Library/Extensions;
 				MODULE_NAME = "com.ethan-s.esdarwin.kernel.IOATABlockStorage";
