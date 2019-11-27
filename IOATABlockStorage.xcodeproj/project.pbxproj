@@ -36,6 +36,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		1F51C55C238E10BC00E8F260 /* IOATABlockStorage.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = IOATABlockStorage.xcconfig; sourceTree = "<group>"; };
 		1FE75F5A20196818004C9C70 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AA93498C1EAAC6AB00CA38D8 /* IOATABlockStorage.kext */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = IOATABlockStorage.kext; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA9349971EAAC72500CA38D8 /* IOATABlockStorageCommands.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = IOATABlockStorageCommands.cpp; sourceTree = "<group>"; };
@@ -62,6 +63,7 @@
 		AA9349801EAAC65500CA38D8 = {
 			isa = PBXGroup;
 			children = (
+				1F51C55C238E10BC00E8F260 /* IOATABlockStorage.xcconfig */,
 				AA9349A51EAAC74100CA38D8 /* Headers */,
 				AA93498E1EAAC6AD00CA38D8 /* IOATABlockStorage */,
 				AA93498D1EAAC6AB00CA38D8 /* Products */,
@@ -262,6 +264,7 @@
 		};
 		AA9349941EAAC6AD00CA38D8 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1F51C55C238E10BC00E8F260 /* IOATABlockStorage.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -319,6 +322,7 @@
 		};
 		AA9349951EAAC6AD00CA38D8 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1F51C55C238E10BC00E8F260 /* IOATABlockStorage.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
