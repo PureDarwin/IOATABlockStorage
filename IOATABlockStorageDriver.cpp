@@ -161,7 +161,7 @@ IOATABlockStorageDriver_PD::start ( IOService * provider )
 	numCommandObjects 	= OSDynamicCast ( OSNumber, getProperty ( "IOCommandPoolSize" ) );
 	fNumCommandObjects 	= numCommandObjects->unsigned32BitValue ( );
 	
-	STATUS_LOG ( ( "IOATABlockStorageDriver::start fNumCommandObjects = %ld\n", fNumCommandObjects ) );
+	STATUS_LOG ( ( "IOATABlockStorageDriver::start fNumCommandObjects = %u\n", (unsigned int)fNumCommandObjects ) );
 	
 	// Create an IOCommandGate (for power management support) and attach
 	// this event source to the provider's workloop
@@ -384,7 +384,7 @@ IOATABlockStorageDriver_PD::inspectDevice ( IOATADevice * ataDevice )
 	if ( theErr != kIOReturnSuccess )
 	{
 		
-		ERROR_LOG ( ( "IOATABlockStorageDriver::inspectDevice theErr = %ld\n", ( UInt32 ) theErr ) );
+		ERROR_LOG ( ( "IOATABlockStorageDriver::inspectDevice theErr = %u\n", ( unsigned int ) theErr ) );
 		return false;
 		
 	}	
@@ -519,7 +519,7 @@ IOATABlockStorageDriver_PD::doAsyncReadWrite (
 	
 	ret = asyncExecute ( cmd, completion );
 	
-	STATUS_LOG ( ( "IOATABlockStorageDriver::doAsyncReadWrite exiting ret = %ld.\n", ( UInt32 ) ret ) );
+	STATUS_LOG ( ( "IOATABlockStorageDriver::doAsyncReadWrite exiting ret = %u.\n", ( unsigned int ) ret ) );
 	
 	return ret;
 	
@@ -553,7 +553,7 @@ IOATABlockStorageDriver_PD::doSyncReadWrite (
 	
 	ret = syncExecute ( cmd );
 		
-	STATUS_LOG ( ( "IOATABlockStorageDriver::doSyncReadWrite exiting ret = %ld.\n", ( UInt32 ) ret ) );
+	STATUS_LOG ( ( "IOATABlockStorageDriver::doSyncReadWrite exiting ret = %u.\n", ( unsigned int ) ret ) );
 	
 	return ret;
 	
@@ -729,7 +729,7 @@ IOATABlockStorageDriver_PD::doSynchronizeCache ( void )
 
 Exit:
 	
-	STATUS_LOG ( ( "IOATABlockStorageDriver::doSynchronizeCache returning status = %ld.\n", ( UInt32 ) status ) );
+	STATUS_LOG ( ( "IOATABlockStorageDriver::doSynchronizeCache returning status = %u.\n", ( unsigned int ) status ) );
 	
 	return status;
 	
@@ -914,7 +914,7 @@ IOATABlockStorageDriver_PD::reportMaxReadTransfer ( UInt64 blocksize, UInt64 * m
 		
 	}
 	
-	STATUS_LOG ( ( "IOATABlockStorageDriver::reportMaxReadTransfer max = %ld.\n", *max ) );
+	STATUS_LOG ( ( "IOATABlockStorageDriver::reportMaxReadTransfer max = %llu.\n", *max ) );
 	
 	return kIOReturnSuccess;
 	
@@ -967,7 +967,7 @@ IOATABlockStorageDriver_PD::reportMaxValidBlock ( UInt64 * maxBlock )
 	
 	*maxBlock = ( diskCapacity / kATADefaultSectorSize ) - 1;
 	
-	STATUS_LOG ( ( "IOATABlockStorageDriver::reportMaxValidBlock maxBlock = %ld.\n", *maxBlock ) );
+	STATUS_LOG ( ( "IOATABlockStorageDriver::reportMaxValidBlock maxBlock = %llu.\n", *maxBlock ) );
 	
 	return kIOReturnSuccess;
 	
@@ -1149,7 +1149,7 @@ IOATABlockStorageDriver_PD::message ( UInt32 type, IOService * provider, void * 
 	
 	IOReturn 	status = kIOReturnSuccess;
 	
-	STATUS_LOG ( ( "IOATABlockStorageDriver::message %p %lx\n", this, type ) );
+	STATUS_LOG ( ( "IOATABlockStorageDriver::message %p %x\n", this, (unsigned int)type ) );
 
 	switch ( type )
 	{
