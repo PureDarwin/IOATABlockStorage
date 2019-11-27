@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 46;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -141,6 +141,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 1120;
+				ORGANIZATIONNAME = "PureDarwin Project";
 				TargetAttributes = {
 					AA93498B1EAAC6AB00CA38D8 = {
 						CreatedOnToolsVersion = 8.3;
@@ -149,7 +150,7 @@
 				};
 			};
 			buildConfigurationList = AA9349841EAAC65500CA38D8 /* Build configuration list for PBXProject "IOATABlockStorage" */;
-			compatibilityVersion = "Xcode 3.2";
+			compatibilityVersion = "Xcode 11.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
