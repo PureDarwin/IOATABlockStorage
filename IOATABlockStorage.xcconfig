@@ -4,3 +4,5 @@ HEADER_SEARCH_PATHS = $(DEPROOT)/System/Library/Frameworks/Kernel.framework/Priv
 SYSTEM_HEADER_SEARCH_PATHS = // nothing, this is a kernel component
 FRAMEWORK_SEARCH_PATHS = // nothing, this is a kernel component
 LIBRARY_SEARCH_PATHS = // nothing, this is a kernel component
+
+INSTALL_PATH = /System/Library/Extensions
