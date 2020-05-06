@@ -142,7 +142,7 @@
 		AA9349811EAAC65500CA38D8 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1120;
+				LastUpgradeCheck = 1140;
 				ORGANIZATIONNAME = "PureDarwin Project";
 				TargetAttributes = {
 					AA93498B1EAAC6AB00CA38D8 = {
