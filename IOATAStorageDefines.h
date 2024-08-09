@@ -1,9 +1,7 @@
 /*
- * Copyright (c) 1998-2003 Apple Computer, Inc. All rights reserved.
+ * Copyright (c) 1998-2007 Apple Inc. All rights reserved.
  *
  * @APPLE_LICENSE_HEADER_START@
- * 
- * Copyright (c) 1999-2003 Apple Computer, Inc.  All Rights Reserved.
  * 
  * This file contains Original Code and/or Modifications of Original Code
  * as defined in and that are subject to the Apple Public Source License
@@ -26,7 +24,12 @@
 #ifndef _IOKIT_IO_ATA_STORAGE_DEFINES_H_
 #define _IOKIT_IO_ATA_STORAGE_DEFINES_H_
 
+#include <stdint.h>
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+	
 /*
  * Important word offsets in device identify data as
  * defined in ATA-5 standard
@@ -69,6 +72,10 @@ enum
 	kATAIdentifyCommandsEnabled				= 86,
 	kATAIdentifyCommandsDefault				= 87,
 	kATAIdentifyUltraDMASupported			= 88,
+	kATAIdentifyPhysicalLogicalSectorSize	= 106,
+	kATAIdentifyWordsPerLogicalSector1		= 117,
+	kATAIdentifyWordsPerLogicalSector2		= 118,
+	kATAIdentifyLogicalSectorAlignment		= 209,
 	kATAIdentifyIntegrity					= 255
 };
 	
@@ -193,8 +200,7 @@ enum
 	kATASupports48BitAddressingBit			= 10,
 	
 	kATASupportsFlushCacheBit				= 12,
-	kATASupportsFlushCacheExtendedBit		= 13,
-	
+	kATASupportsFlushCacheExtendedBit		= 13
 };
 
 /* Masks for features published in Word 83 of device identify data */
@@ -209,7 +215,20 @@ enum
 	kATASupportsFlushCacheExtendedMask		= (1 << kATASupportsFlushCacheExtendedBit),
 	
 	// Mask to ensure data is valid
-	kATADataIsValidMask						= 0xC000
+	kIdentifyWordValidationMask				= 0xC000,
+	kIdentifyWordValid						= 0x4000
+};
+
+/* Bits for features published in Word 84 of device identify data */
+enum
+{
+	kATAForceUnitAccessFeatureBit			= 6,
+};
+
+/* Masks for features published in Word 84 of device identify data */
+enum
+{
+	kATAForceUnitAccessFeatureMask			= (1 << kATAForceUnitAccessFeatureBit),
 };
 
 /* Bits for features published in Word 85 of device identify data */
@@ -225,15 +244,38 @@ enum
 };
 
 
+/* Bits for features published in Word 106 of device identify data */
+enum
+{
+	kATAPhysicalLogicalEnabledBit0			= 15,
+	kATAPhysicalLogicalEnabledBit1			= 14,
+	kATAMultipleLogicalSectorsBit			= 13,
+	kATAValidLogicalSectorSizeBit			= 12	
+};
+
+/* Masks for features published in Word 106 of device identify data */
+enum
+{
+	kATAPhysicalLogicalEnabledMask			= (1 << kATAPhysicalLogicalEnabledBit0) | (1 << kATAPhysicalLogicalEnabledBit1),
+	kATAPhysicalLogicalEnabledValue			= (0 << kATAPhysicalLogicalEnabledBit0) | (1 << kATAPhysicalLogicalEnabledBit1),
+	kATAMultipleLogicalSectorsMask			= (1 << kATAMultipleLogicalSectorsBit),
+	kATAValidLogicalSectorSizeMask			= (1 << kATAValidLogicalSectorSizeBit),
+	kATAPhysicalSectorSizeMask				= 0xF,
+	kATALogicalSectorAlignmentMask			= 0x3FFF
+};
+
+// Property table keys
+#define kIOATASupportedFeaturesKey		"ATA Features"
+
 /* ATA supported features */
 enum
 {
-	kIOATAFeaturePowerManagement			= 0x01,
-	kIOATAFeatureWriteCache					= 0x02,
+	kIOATAFeaturePowerManagement			= 0x01,		/* OBSOLETE */
+	kIOATAFeatureWriteCache					= 0x02,		/* OBSOLETE */
 	kIOATAFeatureAdvancedPowerManagement 	= 0x04,
 	kIOATAFeatureCompactFlash				= 0x08,
 	kIOATAFeature48BitLBA					= 0x10,
-	kIOATAFeatureSMART						= 0x20,
+	kIOATAFeatureSMART						= 0x20
 };
 
 /* ATA Advanced Power Management settings (valid settings range from 1-254),
@@ -245,25 +287,35 @@ enum
 	kIOATAMaxPowerSavings					= 0x01
 };
 
-/* ATA power states, from lowest to highest power usage */
-typedef UInt32 IOATAPowerState;
-enum
-{
-	kIOATAPowerStateSystemSleep	= 0,
-	kIOATAPowerStateSleep 		= 1,
-	kIOATAPowerStateStandby		= 2,
-	kIOATAPowerStateIdle		= 3,
-	kIOATAPowerStateActive		= 4,
-	kIOATAPowerStates			= 5
-};
-
 /* ATA Transfer Mode bit masks */
 enum
 {
 	kATAEnableUltraDMAModeMask 		= 0x40,
 	kATAEnableMultiWordDMAModeMask	= 0x20,
-	kATAEnablePIOModeMask			= 0x08,
+	kATAEnablePIOModeMask			= 0x08
 };
 
+
+typedef uint32_t	ATAOperationType;
+enum
+{
+	kATAOperationTypeRead				= 0,
+	kATAOperationTypeWrite				= 1,
+	kATAOperationTypeFlushCache			= 2,
+	kATAOperationTypeSMART				= 3,
+	kATAOperationTypeConfiguration		= 4,
+	kATAOperationTypePowerManagement	= 5,
+	kATAOperationTypeSMS				= 6
+};
+
+#if defined(KERNEL)
+
+typedef struct __ATAIORequest *	ATARequestIdentifier;
+
+#endif	// defined(KERNEL)
+	
+#ifdef __cplusplus
+}
+#endif
 
 #endif	/* _IOKIT_IO_ATA_STORAGE_DEFINES_H_ */
